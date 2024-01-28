@@ -1,4 +1,4 @@
-package com.DXC.demo;
+package com.DXC.app;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
