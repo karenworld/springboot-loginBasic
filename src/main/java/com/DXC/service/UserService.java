@@ -11,7 +11,7 @@ import jakarta.annotation.PostConstruct;
 
 @Service
 public class UserService {
-	@Autowired
+	
     private UserRepository userRepository;
 	
 	@PostConstruct
@@ -19,6 +19,12 @@ public class UserService {
         // Initialize users in the database
         userRepository.save(new User("user", "password", "USER"));
         userRepository.save(new User("manager", "password", "MANAGER"));
+    }
+		
+
+    @Autowired
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
     public User getUserByUsername(String username) {
