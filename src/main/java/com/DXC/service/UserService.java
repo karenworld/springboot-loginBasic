@@ -14,12 +14,12 @@ public class UserService {
 	
     private UserRepository userRepository;
 	
-	@PostConstruct
-    public void init() {
-        // Initialize users in the database
-        userRepository.save(new User("user", "password", "USER"));
-        userRepository.save(new User("manager", "password", "MANAGER"));
-    }
+//	@PostConstruct
+//    public void init() {
+//        // Initialize users in the database
+//        userRepository.save(new User("abc", "user", "password", "USER"));
+//        userRepository.save(new User("def", "manager", "password", "MANAGER"));
+//    }
 		
 
     @Autowired

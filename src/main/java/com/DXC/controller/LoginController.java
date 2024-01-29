@@ -3,20 +3,25 @@ package com.DXC.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.DXC.model.User;
 import com.DXC.service.UserService;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 @Controller
-public class LoginController {
+public class LoginController implements ErrorController{
 	
 	private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
 
@@ -24,6 +29,16 @@ public class LoginController {
 	  public String login() {
 		 logger.info("Handling request for /login");
 	    return "login";
+	  }
+	 
+	 @RequestMapping("/error")
+	  @ResponseBody
+	  String error(HttpServletRequest request) {
+	    return "<h1>Error occurred</h1>";
+	  }
+
+	  public String getErrorPath() {
+	    return "/error";
 	  }
 	
 	@Autowired

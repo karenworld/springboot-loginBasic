@@ -2,11 +2,18 @@ package com.DXC.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 
 @Entity
+@Table(name = "`user`")
 public class User {
 	
+	public User() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
 	@Id
 	private String username;
 	private String name;
@@ -14,8 +21,9 @@ public class User {
     private String role;
     
     
-	public User(String username, String password, String role) {
+	public User(String name, String username, String password, String role) {
 		// TODO Auto-generated constructor stub
+		this.name = name;
 		this.username = username;
 		this.password = password;
 		this.role = role;
