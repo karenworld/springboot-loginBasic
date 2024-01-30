@@ -15,6 +15,9 @@ import com.DXC.service.UserService;
 @Controller
 public class WebController {
 
+	 @Autowired
+	 private UserService userService;
+	
     @GetMapping("/login")
     public String login() {
         return "login";
@@ -22,7 +25,15 @@ public class WebController {
 
     @GetMapping("/welcome/{username}")
     public String welcome(@PathVariable String username, Model model) {
-        model.addAttribute("username", username);
-        return "welcome";
+        com.DXC.model.User user = userService.getUserByUsername(username);
+
+        if (user != null) {
+            // Add user information to the model
+            model.addAttribute("user", user);
+            return "welcome";
+        } else {
+            // Return an error page if the user is not found
+            return "error";
+        }
     }
 }
