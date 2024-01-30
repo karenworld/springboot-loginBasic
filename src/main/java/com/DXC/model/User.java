@@ -6,7 +6,7 @@ import jakarta.persistence.Table;
 
 
 @Entity
-@Table(name = "`user`")
+@Table(name = "user_table") 
 public class User {
 	
 	public User() {
