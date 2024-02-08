@@ -28,41 +28,23 @@ public class LoginController implements ErrorController{
 	
 	private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
 
+
 	@Autowired
     private UserService userService;
-
-    @PostMapping("/login")
+	
+	@PostMapping("/login")
     public ResponseEntity<String> login(@RequestParam String username, @RequestParam String password) {
         User user = userService.getUserByUsername(username);
 
         if (user != null && user.getPassword().equals(password)) {
-            // Check user role
-            if ("MANAGER".equals(user.getRole())) {
-                // If the user has a manager role, include a link to the restricted webpage
-                String welcomeMessage = "Welcome " + user.getName() + "! Role: " + user.getRole()
-                        + ". You can access the restricted webpage: /api/restricted";
-                return ResponseEntity.ok(welcomeMessage);
-            } else {
-                // For other roles, provide a standard welcome message
-                String welcomeMessage = "Welcome " + user.getName() + "! Role: " + user.getRole();
-                return ResponseEntity.ok(welcomeMessage);
-            }
+            String welcomeMessage = "Welcome " + user.getName() + "! Role: " + user.getRole();
+            return ResponseEntity.ok(welcomeMessage);
         } else {
-            // Return a 401 Unauthorized status for invalid credentials
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid userid or password");
         }
     }
-
-    @GetMapping("/restricted")
-    public ResponseEntity<String> restricted(@RequestHeader(value = "role", defaultValue = "USER") String role) {
-        // Check user role and allow access only to managers
-        if ("MANAGER".equals(role)) {
-            return ResponseEntity.ok("Welcome to the restricted webpage. Only managers can access this.");
-        } else {
-            // Return a 403 Forbidden status for unauthorized access
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Access Forbidden");
-        }
-    }
 }
+
+
 
     

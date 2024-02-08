@@ -1,39 +1,48 @@
 package com.DXC.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.DXC.model.User;
 import com.DXC.service.UserService;
 
 @Controller
+@RequestMapping("/api")
 public class WebController {
-
-	 @Autowired
-	 private UserService userService;
 	
-    @GetMapping("/login")
+	private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
+	
+	UserService userservice;
+	
+	@GetMapping("/login")
     public String login() {
-        return "login";
+        logger.debug("Handling request for /login");
+        return "forward:/api/login";
+       // return "login"; 
+    }
+	
+	@GetMapping("/welcome")
+    public String showWelcomePage(@RequestParam("message") String message, Model model) {
+        model.addAttribute("message", message); // Pass the welcome message to the Thymeleaf template
+        return "welcome"; // Return the name of the Thymeleaf template (welcome.html)
     }
 
-    @GetMapping("/welcome/{username}")
-    public String welcome(@PathVariable String username, Model model) {
-        com.DXC.model.User user = userService.getUserByUsername(username);
+    @GetMapping("/restricted")
+    public String restricted() {
+        return "restricted"; 
+    }
 
-        if (user != null) {
-            // Add user information to the model
-            model.addAttribute("user", user);
-            return "welcome";
-        } else {
-            // Return an error page if the user is not found
-            return "error";
-        }
+    public String getErrorPath() {
+        return "/error"; 
     }
 }
+
+
